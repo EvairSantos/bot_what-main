@@ -47,7 +47,7 @@ rm -f /tmp/.X99-lock
 base_dir=$(pwd)
 
 # Pasta onde o repositório será clonado
-#project_dir="$base_dir/bot_what-main/bot"
+#project_dir="$base_dir/"
 
 # Navegar até o diretório do projeto
 cd "$project_dir" || exit
