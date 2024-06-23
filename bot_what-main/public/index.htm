@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração do Bot</title>
+    <style>
+        NÃO PRECISA FAZER CSS
+    </style>
+</head>
+<body>
+    <h1>Configuração do Bot</h1>
+
+    <div>
+        <div id="mensagemSaudacao">
+            <label for="saudacao">Mensagem de Saudação:</label><br>
+            <textarea id="saudacao" placeholder="Digite a mensagem de saudação aqui..."></textarea><br>
+        </div>
+        
+        <div id="mensagemPadrao">
+            <label for="mensagemPadraoInput">Mensagem Padrão:</label><br>
+            <textarea id="mensagemPadraoInput" placeholder="Digite o menu principal aqui..."></textarea><br>
+        </div>
+        
+        <div id="tempoRespostaConfig">
+            <label for="tempoResposta">Tempo de Resposta (ms):</label><br>
+            <input type="number" id="tempoResposta" placeholder="Tempo em milissegundos"><br>
+        </div>
+        
+        <div id="tempoEsperaRepeticaoConfig">
+            <label for="tempoEsperaRepeticao">Tempo de Espera para Repetição (ms):</label><br>
+            <input type="number" id="tempoEsperaRepeticao" placeholder="Tempo em milissegundos"><br>
+        </div>
+        
+        <div id="responderParaConfig">
+            <label for="responderPara">Responder Para:</label><br>
+            <select id="responderPara">
+                <option value="contatos">Contatos</option>
+                <option value="grupos">Grupos</option>
+                <option value="ambos">Ambos</option>
+            </select><br>
+        </div>
+        
+        <div id="horariosAtuacaoConfig">
+            <label>Horários de Atuação:</label><br>
+            <input type="checkbox" id="domingo" onclick="mostrarHorario('domingo')"> Domingo<br>
+            <div id="horarioDomingo" style="display:none;">
+                <label for="horaInicioDomingo">Início:</label>
+                <input type="time" id="horaInicioDomingo">
+                <label for="horaFimDomingo">Fim:</label>
+                <input type="time" id="horaFimDomingo"><br>
+            </div>
+            <input type="checkbox" id="segunda" onclick="mostrarHorario('segunda')"> Segunda-feira<br>
+            <div id="horarioSegunda" style="display:none;">
+                <label for="horaInicioSegunda">Início:</label>
+                <input type="time" id="horaInicioSegunda">
+                <label for="horaFimSegunda">Fim:</label>
+                <input type="time" id="horaFimSegunda"><br>
+            </div>
+            <input type="checkbox" id="terca" onclick="mostrarHorario('terca')"> Terça-feira<br>
+            <div id="horarioTerca" style="display:none;">
+                <label for="horaInicioTerca">Início:</label>
+                <input type="time" id="horaInicioTerca">
+                <label for="horaFimTerca">Fim:</label>
+                <input type="time" id="horaFimTerca"><br>
+            </div>
+            <input type="checkbox" id="quarta" onclick="mostrarHorario('quarta')"> Quarta-feira<br>
+            <div id="horarioQuarta" style="display:none;">
+                <label for="horaInicioQuarta">Início:</label>
+                <input type="time" id="horaInicioQuarta">
+                <label for="horaFimQuarta">Fim:</label>
+                <input type="time" id="horaFimQuarta"><br>
+            </div>
+            <input type="checkbox" id="quinta" onclick="mostrarHorario('quinta')"> Quinta-feira<br>
+            <div id="horarioQuinta" style="display:none;">
+                <label for="horaInicioQuinta">Início:</label>
+                <input type="time" id="horaInicioQuinta">
+                <label for="horaFimQuinta">Fim:</label>
+                <input type="time" id="horaFimQuinta"><br>
+            </div>
+            <input type="checkbox" id="sexta" onclick="mostrarHorario('sexta')"> Sexta-feira<br>
+            <div id="horarioSexta" style="display:none;">
+                <label for="horaInicioSexta">Início:</label>
+                <input type="time" id="horaInicioSexta">
+                <label for="horaFimSexta">Fim:</label>
+                <input type="time" id="horaFimSexta"><br>
+            </div>
+            <input type="checkbox" id="sabado" onclick="mostrarHorario('sabado')"> Sábado<br>
+            <div id="horarioSabado" style="display:none;">
+                <label for="horaInicioSabado">Início:</label>
+                <input type="time" id="horaInicioSabado">
+                <label for="horaFimSabado">Fim:</label>
+                <input type="time" id="horaFimSabado"><br>
+            </div>
+            <input type="checkbox" id="sempre" onclick="atualizarCheckboxes()"> Sempre<br>
+        </div>
+
+        <h2>Configuração do Menu</h2>
+
+        <div id="opcoes">
+            <!-- Onde as opções serão adicionadas -->
+        </div>
+        <button onclick="adicionarOpcao()">+ OPÇÕES</button>
+
+        <button onclick="salvarConfiguracoes()">Salvar Configurações</button>
+
+        <script>
+            let opcaoContador = 0;
+    
+            function adicionarOpcao() {
+                opcaoContador++;
+                const opcaoId = `opcao${opcaoContador}`;
+    
+                const novaOpcao = document.createElement('div');
+                novaOpcao.classList.add('opcao');
+                novaOpcao.id = opcaoId;
+    
+                const inputOpcao = document.createElement('textarea');
+                inputOpcao.placeholder = `Digite a mensagem para a Opção ${opcaoContador}`;
+                novaOpcao.appendChild(inputOpcao);
+    
+                // Botão para excluir a opção
+                const botaoExcluirOpcao = document.createElement('button');
+                botaoExcluirOpcao.textContent = 'Excluir';
+                botaoExcluirOpcao.onclick = () => excluirOpcao(opcaoId);
+                novaOpcao.appendChild(botaoExcluirOpcao);
+    
+                // Botão para adicionar respostas
+                const botaoAdicionarResposta = document.createElement('button');
+                botaoAdicionarResposta.textContent = 'Adicionar Resposta';
+                botaoAdicionarResposta.onclick = () => adicionarResposta(opcaoId);
+                novaOpcao.appendChild(botaoAdicionarResposta);
+    
+                // Contêiner de respostas
+                const respostasContainer = document.createElement('div');
+                respostasContainer.id = `opcaoRespostas${opcaoId}`;
+                novaOpcao.appendChild(respostasContainer);
+    
+                document.getElementById('opcoes').appendChild(novaOpcao);
+    
+                atualizarNumeracaoOpcoes();
+            }
+    
+            function adicionarResposta(opcaoId) {
+                const respostasContainer = document.getElementById(`opcaoRespostas${opcaoId}`);
+                const respostaContador = respostasContainer.children.length + 1;
+    
+                const respostaDiv = document.createElement('div');
+                respostaDiv.classList.add('resposta');
+                respostaDiv.id = `${opcaoId}Resposta${respostaContador}`;
+    
+                const inputResposta = document.createElement('textarea');
+                inputResposta.placeholder = `Digite a resposta para a Opção ${respostaContador}`;
+                respostaDiv.appendChild(inputResposta);
+    
+                // Botão para adicionar interação
+                const botaoAdicionarInteracao = document.createElement('button');
+                botaoAdicionarInteracao.textContent = 'Adicionar Interação';
+                botaoAdicionarInteracao.onclick = () => adicionarInteracao(respostaDiv);
+                respostaDiv.appendChild(botaoAdicionarInteracao);
+    
+                // Botão para excluir a resposta
+                const botaoExcluirResposta = document.createElement('button');
+                botaoExcluirResposta.textContent = 'Excluir';
+                botaoExcluirResposta.onclick = () => {
+                    excluirElemento(respostaDiv);
+                    atualizarNumeracaoRespostas(opcaoId);
+                };
+                respostaDiv.appendChild(botaoExcluirResposta);
+    
+                respostasContainer.appendChild(respostaDiv);
+    
+                atualizarNumeracaoRespostas(opcaoId);
+            }
+    
+            function adicionarInteracao(respostaDiv) {
+                const interacoes = respostaDiv.querySelectorAll('.interacao');
+                const contadorInteracoes = interacoes.length + 1;
+    
+                const interacaoDiv = document.createElement('div');
+                interacaoDiv.classList.add('interacao');
+    
+                const inputInteracao = document.createElement('textarea');
+                inputInteracao.placeholder = `Digite a interação ${contadorInteracoes} para esta resposta`;
+                interacaoDiv.appendChild(inputInteracao);
+    
+                // Botão para excluir a interação
+                const botaoExcluirInteracao = document.createElement('button');
+                botaoExcluirInteracao.textContent = 'Excluir';
+                botaoExcluirInteracao.onclick = () => {
+                    excluirElemento(interacaoDiv);
+                    atualizarNumeracaoInteracoes(respostaDiv);
+                };
+                interacaoDiv.appendChild(botaoExcluirInteracao);
+    
+                respostaDiv.appendChild(interacaoDiv);
+    
+                atualizarNumeracaoInteracoes(respostaDiv);
+            }
+    
+            function excluirOpcao(opcaoId) {
+                document.getElementById(opcaoId).remove();
+                atualizarNumeracaoOpcoes();
+            }
+    
+            function atualizarNumeracaoOpcoes() {
+                const opcoes = document.querySelectorAll('.opcao');
+                opcoes.forEach((opcao, index) => {
+                    const numOpcao = index + 1;
+                    opcao.querySelector('textarea').placeholder = `Digite a mensagem para a Opção ${numOpcao}`;
+                    opcao.id = `opcao${numOpcao}`;
+                    const botaoExcluirOpcao = opcao.querySelector('button');
+                    botaoExcluirOpcao.onclick = () => excluirOpcao(`opcao${numOpcao}`);
+    
+                    opcao.querySelectorAll('.resposta').forEach((respostaDiv, respostaIndex) => {
+                        respostaDiv.id = `opcao${numOpcao}Resposta${respostaIndex + 1}`;
+                        respostaDiv.querySelector('textarea').placeholder = `Digite a resposta para a Opção ${numOpcao} - Resposta ${respostaIndex + 1}`;
+                        atualizarNumeracaoInteracoes(respostaDiv);
+                    });
+                });
+                opcaoContador = opcoes.length;
+            }
+    
+            function atualizarNumeracaoRespostas(opcaoId) {
+                const respostasContainer = document.getElementById(`opcaoRespostas${opcaoId}`);
+                const respostas = respostasContainer.querySelectorAll('.resposta');
+                respostas.forEach((respostaDiv, index) => {
+                    const numResposta = index + 1;
+                    respostaDiv.id = `${opcaoId}Resposta${numResposta}`;
+                    respostaDiv.querySelector('textarea').placeholder = `Digite a resposta para a Opção ${opcaoId.replace('opcao', '')} - Resposta ${numResposta}`;
+                    atualizarNumeracaoInteracoes(respostaDiv);
+                });
+            }
+    
+            function atualizarNumeracaoInteracoes(respostaDiv) {
+                const interacoes = respostaDiv.querySelectorAll('.interacao');
+                interacoes.forEach((interacaoDiv, index) => {
+                    const numInteracao = index + 1;
+                    interacaoDiv.querySelector('textarea').placeholder = `Digite a interação ${numInteracao} para esta resposta`;
+                });
+            }
+    
+            function excluirElemento(elemento) {
+                elemento.remove();
+                const respostaDiv = elemento.closest('.resposta');
+                if (respostaDiv) {
+                    const opcaoId = respostaDiv.id.match(/opcao\d+/)[0];
+                    atualizarNumeracaoRespostas(opcaoId);
+                } else {
+                    const opcaoDiv = elemento.closest('.opcao');
+                    const opcaoId = opcaoDiv.id;
+                    atualizarNumeracaoOpcoes();
+                }
+            }
+    
+            function salvarConfiguracoes() {
+        const configuracoes = {
+            saudacao: document.getElementById('saudacao').value,
+            mensagemPadrao: document.getElementById('mensagemPadraoInput').value,
+            tempoResposta: document.getElementById('tempoResposta').value,
+            tempoEsperaRepeticao: document.getElementById('tempoEsperaRepeticao').value,
+            responderPara: document.getElementById('responderPara').value,
+            opcoesMenu: []
+        };
+
+        // Captura todas as opções do menu
+        const opcoes = document.querySelectorAll('.opcao');
+        opcoes.forEach(opcao => {
+            const opcaoId = opcao.id;
+            const textoOpcao = opcao.querySelector('textarea').value;
+            const respostas = [];
+
+            // Captura todas as respostas da opção
+            const respostasContainer = document.getElementById(`opcaoRespostas${opcaoId}`);
+            const respostasDivs = respostasContainer.querySelectorAll('.resposta');
+            respostasDivs.forEach(respostaDiv => {
+                const respostaId = respostaDiv.id;
+                const textoResposta = respostaDiv.querySelector('textarea').value;
+                const interacoes = [];
+
+                // Captura todas as interações da resposta
+                const interacoesDivs = respostaDiv.querySelectorAll('.interacao');
+                interacoesDivs.forEach(interacaoDiv => {
+                    const textoInteracao = interacaoDiv.querySelector('textarea').value;
+                    interacoes.push(textoInteracao);
+                });
+
+                // Monta objeto da resposta com interações
+                const resposta = {
+                    texto: textoResposta,
+                    interacoes: interacoes
+                };
+                respostas.push(resposta);
+            });
+
+            // Monta objeto da opção com respostas
+            const opcaoObj = {
+                texto: textoOpcao,
+                respostas: respostas
+            };
+            configuracoes.opcoesMenu.push(opcaoObj);
+        });
+
+        // Enviar dados para a API via fetch
+        fetch('/', {  // Caminho relativo para a API
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(configuracoes),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Resposta da API:', data);
+            alert('Configurações salvas com sucesso!');
+        })
+        .catch(error => {
+            console.error('Erro ao salvar configurações:', error);
+            alert('Erro ao salvar configurações. Verifique o console para mais detalhes.');
+        });
+    }
+        </script>
+    </body>
+</html>
